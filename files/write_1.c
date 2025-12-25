@@ -11,12 +11,10 @@ void _start(void) {
 	);
 
 	__asm__ __volatile__(
-		"mov $60, %%rax\n\t"
-		"mov $0, %%rdi\n\t"
 		"syscall\n\t"
 		:
-		:
-		: "%rax", "%rdi"
+		: "a"(60), "D"(0)
+		: "rcx", "r11"
 	);
 }
 
