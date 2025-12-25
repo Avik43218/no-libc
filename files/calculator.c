@@ -1,5 +1,7 @@
 // print to stdout
 
+static inline long add(long x, long y);
+
 static inline void write(const char* buf, unsigned long len) {
 
 	__asm__ __volatile__(
@@ -25,7 +27,7 @@ static inline unsigned long itoc(long x, char* buf) {
 
 	if (x < 0) {
 		buf[0] = '-';
-		x = -x;
+		x = add(~x, 1);
 	}
 
 	while (x > 0) {
@@ -58,6 +60,19 @@ static inline long add(long x, long y) {
 		x = x ^ y;
 
 		y = carry << 1;
+	}
+	return x;
+}
+
+static inline long subtract(long x, long y) {
+
+	while (y != 0) {
+
+		long borrow = (~x) & y;
+
+		x = x ^ y;
+
+		y = borrow << 1;
 	}
 	return x;
 }
