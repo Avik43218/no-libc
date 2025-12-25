@@ -26,7 +26,7 @@ static inline unsigned long itoc(long x, char* buf) {
 	}
 
 	if (x < 0) {
-		buf[0] = '-';
+		buf[j++] = '-';
 		x = add(~x, 1);
 	}
 
@@ -77,6 +77,22 @@ static inline long subtract(long x, long y) {
 	return x;
 }
 
+static inline long multiply(long x, long y) {
+
+	long result = 0;
+
+	while (y > 0) {
+		if ((y & 1) != 0) {
+			result = add(result, x);
+		}
+
+		x <<= 1;
+		y >>= 1;
+	}
+
+	return result;
+}
+
 // entry point
 
 void _start(void) {
@@ -84,7 +100,7 @@ void _start(void) {
 	long a = 5, b = 10;
 	long result;
 
-	result = add(a, b);
+	result = subtract(a, b);
 
 	print_int(result);
 	write("\n", 1);
