@@ -9,10 +9,10 @@ section .text
 
 _start:
 
-	mov rax, 0
-	mov rdi, 0
-	lea rsi, [rel input_buf]
-	mov rdx, 64
+	mov rax, 0				; Syscall number for stdin
+	mov rdi, 0				; File descriptor 0
+	lea rsi, [rel input_buf]		; Load Effective Address of input_buf relative to RIP
+	mov rdx, 64				; Maximum number of bytes
 	syscall
 
 	mov r8, rax
@@ -23,7 +23,7 @@ _start:
 
 .process_loop:
 
-	movzx rbx, byte [input_buf + rcx]
+	movzx rbx, byte [input_buf + rcx]	; Move one byte from input_buf into RBX
 	cmp rbx, 0x0A
 	je .print_loop
 
@@ -41,9 +41,9 @@ _start:
 	mov rdx, 1
 	syscall
 
-	inc rsi
+	inc rsi					; Iterate over the stack
 	inc r9
-	cmp r9, r8
+	cmp r9, r8				; Check whether R9 is lesser than R8
 	jne .print_loop
 
 
